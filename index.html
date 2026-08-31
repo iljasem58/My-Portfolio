@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilja Semencenko</title>
+<meta name="description" content="AI product manager portfolio: four years of engineering, a production RAG platform, and the trade-offs defended along the way.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('theme');
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  }catch(e){}
+})();
+</script>
+</head>
+<body>
+<button id="theme-toggle" class="theme-toggle mono" type="button" aria-label="Switch color theme"></button>
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">ilja semencenko: ai platform product manager</div>
+      <h1 class="headline">I shipped code for four years.<br>Now I make sure what we build gets used.<span class="cursor" aria-hidden="true"></span></h1>
+      <p class="subhead">AI product manager with hands-on engineering roots: technical enough to sit in the trade-off discussions, focused on turning what the team builds into something clients actually adopt.</p>
+
+      <div class="contact-row">
+        <a class="pill" href="mailto:ilja.semencenko@gmail.com">ilja.semencenko@gmail.com</a>
+        <a class="pill" href="tel:+37127028318">+371 27028318</a>
+        <a class="pill" href="https://linkedin.com/in/ilja-semencenko/" target="_blank" rel="noopener">linkedin.com/in/ilja-semencenko</a>
+      </div>
+
+      <div class="statusline">
+        <span><span class="k">status</span> <b>shipping</b></span>
+        <span><span class="k">based</span> <b>Riga, LV</b></span>
+        <span><span class="k">now</span> <b>Netcracker Technology</b></span>
+        <span><span class="k">prior</span> <b>Swisscom DevOps Center</b></span>
+      </div>
+    </div>
+
+    <div class="portrait">
+      <img src="assets/portrait.jpg" alt="Portrait of Ilja Semencenko">
+      <div class="bl"></div><div class="br"></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap reveal">
+    <blockquote class="thesis">
+      Most product roles hand engineers a roadmap and wait for outcomes. I sit in the architecture discussions myself (which datastore, which model, which region), argue the case alongside the team's architect, and stay close enough to the build to defend it on the client call. The two tools further down this page weren't on anyone's roadmap; I pushed for them because the same problem kept showing up.
+      <footer>on how the roadmap actually gets made</footer>
+    </blockquote>
+  </div>
+</section>
+
+<section id="case-study">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">case study</div>
+      <h2 class="section-title">The RAG platform</h2>
+    </div>
+    <p class="lede">Joined Netcracker right as the team was just getting started on this. Since then, I've driven adoption across internal and external users, reprioritized the backlog around real usage, and defended the platform's trade-offs on every client call.</p>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="num">500+</div><div class="lbl">users across internal projects and external client deployments</div></div>
+      <div class="stat"><div class="num">8+/10</div><div class="lbl">average satisfaction among users who completed pilot onboarding</div></div>
+      <div class="stat"><div class="num">90%</div><div class="lbl">question-answer rate at production scale</div></div>
+      <div class="stat"><div class="num">20–43%</div><div class="lbl">faster retrieval &amp; analysis, project-dependent</div></div>
+    </div>
+
+    <div class="body-text">
+      <p>Here's how the platform works, and the trade-off I've spent the most time defending: source systems are chunked and embedded, with the embeddings indexed in OpenSearch and the original text held separately in SeaweedFS object storage. An incoming question from Teams or Webex gets embedded the same way, matched against the index, and the retrieved chunks are pulled back from storage to assemble context before the model answers.</p>
+      <p>Which model answers depends on who's asking: frontier hosted models for internal R&amp;D and product exploration, self-hosted open-weight models (gpt-oss-120b, Kimi) on owned AWS infrastructure for client-facing traffic, split by data residency, region, and cost. Explaining and defending that split to clients is a routine part of the job.</p>
+    </div>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 960 580" role="img" aria-label="Diagram of the RAG platform: an offline ingestion pipeline chunks and embeds Jira and Confluence content into a shared OpenSearch index and SeaweedFS object store; a real-time query pipeline embeds incoming Teams and Webex questions, matches them against the same index and store, then routes the answer to a frontier hosted model or a self-hosted model on AWS depending on client data residency.">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-faint)"></path>
+          </marker>
+        </defs>
+
+        <rect x="410" y="152" width="290" height="228" rx="8" fill="var(--cyan)" opacity="0.06"></rect>
+        <rect x="410" y="152" width="290" height="228" rx="8" fill="none" stroke="var(--cyan)" stroke-opacity="0.35" stroke-dasharray="3 4"></rect>
+        <text x="555" y="145" class="lbl" font-size="10.5" letter-spacing="1.2" text-anchor="middle" fill="var(--cyan)">SHARED INFRA</text>
+
+        <text x="20" y="128" class="lbl" font-size="10.5" letter-spacing="1.2" fill="var(--ink-faint)">INGESTION · OFFLINE, BATCH</text>
+
+        <rect x="20" y="140" width="220" height="50" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.5"></rect>
+        <text x="130" y="161" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Jira · Confluence</text>
+        <text x="130" y="178" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">sources</text>
+
+        <line class="arrow" x1="130" y1="190" x2="130" y2="207" marker-end="url(#arrow)"></line>
+
+        <rect x="20" y="210" width="220" height="50" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.5"></rect>
+        <text x="130" y="231" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Chunk + embed</text>
+        <text x="130" y="248" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">per document</text>
+
+        <line class="arrow" x1="240" y1="228" x2="426" y2="196" marker-end="url(#arrow)"></line>
+        <text x="270" y="204" class="lbl" font-size="10.5" fill="var(--ink-faint)">index embeddings</text>
+
+        <line class="arrow" x1="240" y1="242" x2="426" y2="288" marker-end="url(#arrow)"></line>
+        <text x="270" y="270" class="lbl" font-size="10.5" fill="var(--ink-faint)">store raw chunks</text>
+
+        <text x="430" y="14" class="lbl" font-size="10.5" letter-spacing="1.2" fill="var(--ink-faint)">QUERY · REAL TIME</text>
+
+        <rect x="430" y="25" width="250" height="50" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.5"></rect>
+        <text x="555" y="46" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Teams · Webex</text>
+        <text x="555" y="63" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">question comes in</text>
+
+        <line class="arrow" x1="555" y1="75" x2="555" y2="92" marker-end="url(#arrow)"></line>
+
+        <rect x="430" y="95" width="250" height="50" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.5"></rect>
+        <text x="555" y="120" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Embed query</text>
+
+        <line class="arrow" x1="555" y1="145" x2="555" y2="162" marker-end="url(#arrow)"></line>
+
+        <rect x="430" y="165" width="250" height="60" rx="6" fill="var(--bg-elevated)" stroke="var(--cyan)" stroke-width="1.6"></rect>
+        <text x="555" y="192" class="lbl" font-size="14" font-weight="700" text-anchor="middle" fill="var(--cyan)">OpenSearch</text>
+        <text x="555" y="209" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">vector index · match</text>
+
+        <line class="arrow" x1="555" y1="225" x2="555" y2="252" marker-end="url(#arrow)"></line>
+        <text x="565" y="242" class="lbl" font-size="10.5" fill="var(--ink-faint)">chunk ids</text>
+
+        <rect x="430" y="255" width="250" height="60" rx="6" fill="var(--bg-elevated)" stroke="var(--cyan)" stroke-width="1.6"></rect>
+        <text x="555" y="282" class="lbl" font-size="14" font-weight="700" text-anchor="middle" fill="var(--cyan)">SeaweedFS</text>
+        <text x="555" y="299" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">object store · fetch chunk</text>
+        <text x="695" y="290" class="lbl" font-size="10.5" fill="var(--amber)">← replaced MinIO, throughput</text>
+
+        <line class="arrow" x1="555" y1="315" x2="555" y2="332" marker-end="url(#arrow)"></line>
+        <text x="565" y="328" class="lbl" font-size="10.5" fill="var(--ink-faint)">context assembled</text>
+
+        <rect x="430" y="335" width="250" height="50" rx="6" fill="var(--bg-elevated)" stroke="var(--amber)" stroke-width="1.6"></rect>
+        <text x="555" y="356" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="var(--amber)">Model router</text>
+        <text x="555" y="373" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">by client data residency</text>
+
+        <line class="arrow" x1="500" y1="385" x2="380" y2="412" marker-end="url(#arrow)"></line>
+        <text x="392" y="402" class="lbl" font-size="10.5" fill="var(--ink-faint)">internal R&amp;D</text>
+
+        <line class="arrow" x1="610" y1="385" x2="700" y2="412" marker-end="url(#arrow)"></line>
+        <text x="600" y="402" class="lbl" font-size="10.5" fill="var(--ink-faint)">client-facing</text>
+
+        <rect x="250" y="415" width="220" height="65" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.5"></rect>
+        <text x="360" y="443" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Frontier hosted</text>
+        <text x="360" y="460" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">R&amp;D &amp; exploration</text>
+
+        <rect x="540" y="415" width="290" height="65" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.5"></rect>
+        <text x="685" y="443" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Self-hosted · AWS</text>
+        <text x="685" y="460" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">gpt-oss-120b, Kimi</text>
+
+        <line class="arrow" x1="380" y1="480" x2="500" y2="502" marker-end="url(#arrow)"></line>
+        <line class="arrow" x1="700" y1="480" x2="610" y2="502" marker-end="url(#arrow)"></line>
+
+        <rect x="430" y="505" width="250" height="50" rx="6" fill="none" stroke="currentColor" stroke-opacity="0.5"></rect>
+        <text x="555" y="526" class="lbl" font-size="13" font-weight="700" text-anchor="middle" fill="currentColor">Response</text>
+        <text x="555" y="543" class="lbl" font-size="10.5" text-anchor="middle" fill="var(--ink-dim)">→ posted to Teams · Webex</text>
+      </svg>
+      <figcaption>Ingestion (left) and the live query path (right) share one index and one object store. It's the same infrastructure both pipelines write to and read from.</figcaption>
+    </figure>
+
+    <div class="decisions">
+      <div class="decision">
+        <span class="tag">trade-off I defend</span>
+        <h3>Frontier vs. self-hosted routing</h3>
+        <p>The call that decides who answers a client's question: frontier hosted models for internal work, self-hosted gpt-oss-120b and Kimi on owned AWS for client-facing traffic, split by data residency and cost. I'm the one who explains it and defends it on the call.</p>
+      </div>
+      <div class="decision">
+        <span class="tag">what I drove</span>
+        <h3>Backlog shaped by real usage</h3>
+        <p>Combined feedback from internal pilots with input from external partners and clients, ranked by impact and severity, and pushed several improvement items in even where the original plan largely held.</p>
+      </div>
+    </div>
+
+    <div class="body-text">
+      <p>Took the pilot through commercialization directly: evaluated infrastructure and team-time cost to build a pricing model, then got on the call myself for live demos of the same system to prospective external clients.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">beyond the roadmap</div>
+      <h2 class="section-title">Two more problems, same pattern</h2>
+    </div>
+    <p class="lede">Neither of these was in the original plan. I pushed for both, arguing the same ingest → analyze → integrate pattern already proven on the RAG platform could solve two more problems the team kept running into.</p>
+
+    <div class="shipped">
+      <div class="shipped-item">
+        <div class="n mono">02</div>
+        <div>
+          <h3>AI-driven Jira ticket analyzer</h3>
+          <p>Advocated for applying the platform's approach to ticket triage: ingest ticket data, surface patterns, wire it into the team's existing Jira workflow instead of a separate tool.</p>
+        </div>
+      </div>
+      <div class="shipped-item">
+        <div class="n mono">03</div>
+        <div>
+          <h3>CI/CD pipeline analyzer</h3>
+          <p>Pushed the same pattern toward pipeline runs, flagging what the engineering team actually needs to look at.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">track record</div>
+      <h2 class="section-title">Built before I roadmapped</h2>
+    </div>
+    <p class="lede">One thread runs under every title change: four years of shipped code and owned production systems before I ever wrote a roadmap.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Sep 2021 – May 2024</div>
+        <h3>Software Engineer</h3>
+        <div class="role-co">Swisscom DevOps Center</div>
+        <p>Started as an intern engineer building SSO authentication with OAuth, Spring Boot, and React, plus backend token validation and Python-based integrations between internal systems; converted to full-time as Software Engineer in March 2022. Shipped key parts of the UI redesign of an enterprise B2B portal using Angular, Stencil.js, and TypeScript, and contributed to CI/CD pipelines and release processes.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">May 2024 – Aug 2025</div>
+        <h3>Software &amp; DevOps Engineer, IAM</h3>
+        <div class="role-co">Swisscom DevOps Center</div>
+        <p>Delivered authentication and authorization with Ping Identity (ForgeRock); improved observability with Splunk and Grafana; 97% test coverage with Jest and Playwright; mentored 6 engineers; automated deployments with Docker and Kubernetes.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Aug 2025 – Mar 2026</div>
+        <h3>Development Tools Manager &amp; AI PM</h3>
+        <div class="role-co">Swisscom DevOps Center</div>
+        <p>Led adoption of GitHub Copilot, Amazon Q Developer, and the Kiro Agentic IDE; partnered directly with AWS, Microsoft, and GitHub; scaled the AI Ambassador Program across Switzerland, the Netherlands, and Latvia.</p>
+      </div>
+      <div class="tl-item now">
+        <div class="tl-date">Mar 2026 – present</div>
+        <h3>AI Platform Product Manager</h3>
+        <div class="role-co">Netcracker Technology</div>
+        <p>Owns the roadmap and drives adoption for the internal AI platform described above, sits in the technical trade-off discussions, and pushed the Jira ticket analyzer and CI/CD pipeline analyzer onto its backlog as extensions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">stack</div>
+      <h2 class="section-title">What's actually in use</h2>
+    </div>
+    <div class="manifest">
+      <div class="manifest-row"><span class="k">frontend</span><span class="v">Angular, Stencil.js, React, TypeScript, RxJS</span></div>
+      <div class="manifest-row"><span class="k">platform</span><span class="v">OAuth, SSO, MFA, Ping Identity (ForgeRock), REST APIs, Node.js, Java, Python</span></div>
+      <div class="manifest-row"><span class="k">testing</span><span class="v">Jest, Karma, Playwright</span></div>
+      <div class="manifest-row"><span class="k">infra</span><span class="v">Docker, Kubernetes, Jenkins, CI/CD, NGINX, Git</span></div>
+      <div class="manifest-row"><span class="k">data</span><span class="v">SQL, Firebase, OpenSearch, SeaweedFS, usage analytics</span></div>
+      <div class="manifest-row"><span class="k">ai</span><span class="v">RAG architecture, GitHub Copilot, Amazon Q Developer, Kiro, Claude Code, OpenCode, OpenChamber, gpt-oss-120b, Kimi</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">education</div>
+      <h2 class="section-title">Riga Technical University</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <div class="deg">Master's, Business Informatics</div>
+        <div class="school">Sep 2022 – Jan 2025</div>
+        <span class="score">avg 9.0</span>
+        <p class="thesis">Thesis: Minimizing Security and Privacy Risks of Generative AI Use in Organizations</p>
+      </div>
+      <div class="edu-item">
+        <div class="deg">Bachelor's, Computer Systems</div>
+        <div class="school">Sep 2019 – Jun 2022</div>
+        <span class="score">avg 8.2</span>
+        <p class="thesis">Thesis: Development of an Open-Source eDocStore for Electronic Document Processing</p>
+      </div>
+    </div>
+    <div class="langs">languages: English (fluent) · Latvian (fluent) · Russian (native)</div>
+  </div>
+</section>
+
+<footer class="contact">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">get in touch</div>
+      <h2 class="section-title">Let's talk about what's worth building</h2>
+    </div>
+    <div class="prompt">
+      <div><span class="p1">$</span> contact ilja</div>
+      <div>&nbsp;&nbsp;<span class="k">→ email</span>&nbsp;&nbsp;<a href="mailto:ilja.semencenko@gmail.com">ilja.semencenko@gmail.com</a></div>
+      <div>&nbsp;&nbsp;<span class="k">→ phone</span>&nbsp;&nbsp;<a href="tel:+37127028318">+371 27028318</a></div>
+      <div>&nbsp;&nbsp;<span class="k">→ linkedin</span>&nbsp;&nbsp;<a href="https://linkedin.com/in/ilja-semencenko/" target="_blank" rel="noopener">/in/ilja-semencenko</a></div>
+    </div>
+    <div class="fine">Riga, Latvia.</div>
+  </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>
